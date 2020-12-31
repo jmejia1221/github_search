@@ -1,0 +1,19 @@
+.button {
+    width: 100%;
+    padding: 1.5rem 0;
+    color: var(--white);
+    font-size: 1.6rem;
+    font-weight: bold;
+    background-color: var(--primary);
+    background: linear-gradient(180deg,
+        rgba(111,49,254,1) 0%,
+        rgb(83, 36, 194) 100%
+    );
+    border: none;
+    cursor: pointer;
+    border-radius: .8rem;
+    &:hover,
+    &:focus {
+        background: var(--primary);
+    }
+}
