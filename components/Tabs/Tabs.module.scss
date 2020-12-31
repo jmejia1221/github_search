@@ -1,0 +1,14 @@
+.content {
+    display: flex;
+}
+.nav {
+    padding: 8rem 8rem;
+    .list {
+        li {
+            font-weight: bold;
+        }
+    }
+}
+.tabContent {
+    padding: 8rem 1rem;
+}
