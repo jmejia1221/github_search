@@ -1,0 +1,31 @@
+{
+  "name": "s4n_test",
+  "version": "1.0.0",
+  "description": "S4N test",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jmejia1221/github_search.git"
+  },
+  "author": "John Mejia",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jmejia1221/github_search/issues"
+  },
+  "homepage": "https://github.com/jmejia1221/github_search#readme",
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.32",
+    "@fortawesome/free-solid-svg-icons": "^5.15.1",
+    "@fortawesome/react-fontawesome": "^0.1.14",
+    "axios": "^0.21.1",
+    "next": "^10.0.4",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "sass": "^1.32.0"
+  }
+}
