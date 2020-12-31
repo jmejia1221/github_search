@@ -1,8 +1,13 @@
 import React from 'react';
 
+// CSS
+import styles from './index.module.scss';
+
 const Home = () => {
     return (
-        <h1>Initial Data</h1>
+        <section className={styles.main}>
+            hey
+        </section>
     );
 };
 
