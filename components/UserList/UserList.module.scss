@@ -1,0 +1,17 @@
+.UserList {
+    display: flex;
+    padding: 2rem;
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    border: 2px solid var(--primary);
+    box-shadow: 0 0.8rem 1.2rem rgba(0, 0, 0, 0.1);
+    .item {
+        flex: 1 1 35%;
+        margin-bottom: 2rem;
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
