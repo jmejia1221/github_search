@@ -22,6 +22,7 @@ const Search = (props) => {
             </div>
             <div>
                 <SearchContent
+                    sortingData={props.sortingData}
                     filterSearchedDataHandler={props.filterSearchedDataHandler}
                     paginationHandler={props.paginationHandler}
                     paginationSetUp={props.paginationSetUp}

@@ -17,11 +17,11 @@ import { parseCookies } from '../helpers';
 import styles from './index.module.scss';
 
 const headTableItems = [
-    { name: 'Language' },
-    { name: 'Default Branch' },
-    { name: 'Git URL' },
-    { name: 'Name' },
-    { name: 'Description' }
+    { name: 'Language', value: 'language' },
+    { name: 'Default Branch', value: 'default_branch' },
+    { name: 'Git URL', value: 'git_url' },
+    { name: 'Name', value: 'name' },
+    { name: 'Description', value: 'description' }
 ];
 
 const inputSearchConfig = {
@@ -66,8 +66,9 @@ const Home = ({ data }) => {
     });
 
     // Get data searched
-    const searchRepoByUser = (query, pagination) => {
+    const searchRepoByUser = (query, pagination, sorting) => {
         let urlRequest = null;
+        let sendParams = {};
 
         // Keeping item selected in the pagination
         if (paginationSetUp.currentPage !== 1 && !pagination) {
@@ -75,15 +76,19 @@ const Home = ({ data }) => {
         }
 
         if (pagination) {
-            urlRequest = axios.get('https://api.github.com/users/' + query + '/repos',
-                {
-                    params: {
-                        page: pagination.id,
-                        per_page: paginationSetUp.limit
-                    }
-                })
+            urlRequest = axios.get('https://api.github.com/users/' + query + '/repos', {
+                params: {
+                    page: pagination.id,
+                    per_page: paginationSetUp.limit,
+                    sort: sorting ? sorting.type : ''
+                }
+            })
         } else {
-            urlRequest = axios.get('https://api.github.com/users/' + query + '/repos')
+            urlRequest = axios.get('https://api.github.com/users/' + query + '/repos', {
+                params: {
+                    sort: sorting ? sorting.type : ''
+                }
+            })
         }
 
         urlRequest.then(response => {
@@ -155,6 +160,11 @@ const Home = ({ data }) => {
         }
     }
 
+    const sortingData = (type) => {
+        const sorting = { type }
+        searchRepoByUser(searchValue, null, sorting);
+    }
+
     let users = null;
 
     if (data.user) {
@@ -174,6 +184,7 @@ const Home = ({ data }) => {
                         <h2 className={styles.title}>Search User's Repositories</h2>
                         <Search
                             head={headTableItems}
+                            sortingData={sortingData}
                             data={gitUsersData}
                             keyDownHandler={keyDownHandler}
                             searchValue={searchValue}

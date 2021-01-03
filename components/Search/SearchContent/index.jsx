@@ -14,7 +14,7 @@ const SearchContent = (props) => {
             return (
                 <th
                     key={item.name + i.toString()}
-                    onClick={() => props.filterSearchedDataHandler(item.name)}
+                    onClick={() => props.sortingData(item.value)}
                     className={styles.th}>
                     {item.name}
                 </th>

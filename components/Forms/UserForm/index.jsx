@@ -95,7 +95,7 @@ const userForm = {
         valid: false,
         touched: false
     }
-}
+};
 
 const UserForm = () => {
     const router = useRouter();
@@ -115,7 +115,7 @@ const UserForm = () => {
             maxAge: 3600, // Expires after 1hr
             sameSite: true,
         });
-        // Updating data calling root route
+        // Updating data rooting the route
         router.push('/');
 
         // Cleaning up data after have sent it
