@@ -1,5 +1,7 @@
 .main {
     display: flex;
+    width: fit-content;
+    min-width: 100%;
     border-radius: 2rem;
     height: calc(100vh - 6rem);
     background-color: var(--white);

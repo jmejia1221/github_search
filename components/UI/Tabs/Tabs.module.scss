@@ -5,7 +5,9 @@
     padding: 8rem 8rem;
     .list {
         li {
+            min-width: 6rem;
             font-weight: bold;
+            text-align: center;
         }
     }
 }

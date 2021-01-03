@@ -5,7 +5,7 @@ import '../styles.scss';
 
 export default function App({ Component, pageProps }) {
   return (
-    // Givin access to the Cookie
+    // Giving access to the Cookie
     <CookiesProvider>
         <Component {...pageProps} />
     </CookiesProvider>

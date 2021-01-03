@@ -13,7 +13,7 @@ import styles from './UserForm.module.scss';
 import Input from '../../UI/Input';
 import Button from '../../UI/Button';
 
-const UserForm = (props) => {
+const UserForm = () => {
     const router = useRouter();
     const [cookie, setCookie] = useCookies(["user"]);
     const userForm = {

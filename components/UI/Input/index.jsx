@@ -4,7 +4,6 @@ import React from 'react';
 import styles from './Input.module.scss';
 
 const Input = (props) => {
-    console.log('props', props)
     let inputElement = null;
     const inputClasses = [styles.input];
 
@@ -14,6 +13,7 @@ const Input = (props) => {
                 className={inputClasses.join(' ')}
                 {...props.elementConfig}
                 value={props.value}
+                onKeyDown={props.keyDownHandler}
                 onChange={props.changed} />;
             break;
         case ('textarea') :
@@ -21,18 +21,20 @@ const Input = (props) => {
                 className={inputClasses.join(' ')}
                 {...props.elementConfig}
                 value={props.value}
+                onKeyDown={props.keyDownHandler}
                 onChange={props.changed} />;
             break;
         default :
             inputElement = <input
+                onKeyDown={props.keyDownHandler}
                 className={inputClasses.join(' ')}
                 {...props.elementConfig}
                 value={props.value} />
             break;
     }
     return (
-        <div className="Input">
-            { props.label && <label className="Label">{props.label}</label> }
+        <div className={styles.inputContent}>
+            { props.label && <label>{props.label}</label> }
             {inputElement}
         </div>
     );

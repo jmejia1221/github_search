@@ -1,0 +1,33 @@
+.tableContent {
+    max-height: 30rem;
+    overflow: auto;
+    box-shadow: 0 0.8rem 1.2rem rgba(0, 0, 0, 0.1);
+    .table {
+        border-collapse: collapse;
+        .thead {
+            .th {
+                top: -1px;
+                position: sticky;
+                border: 1px solid var(--grey-light);
+                background-color: var(--white);
+                box-shadow: 0 0.8rem 1.2rem rgba(0, 0, 0, 0.1);
+            }
+        }
+        .td, .th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        .tr{
+            &:nth-child(even) {
+                background-color: var(--grey-lighter);
+            }
+        }
+    }
+    .noFound {
+        color: var(--grey);
+        font-size: 1.6rem;
+        padding: 0 2rem;
+        font-weight: bold;
+    }
+}

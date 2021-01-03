@@ -3,7 +3,13 @@
     font-size: 3.5rem;
     margin-bottom: 3rem;
     color: var(--secondary);
+    transition: all .2s;
     &.active {
         color: var(--primary);
+        font-size: 3rem;
+        background: var(--grey-lightest);
+        padding: 1rem;
+        border-radius: 1rem;
+        box-shadow: 0 0.8rem 1.2rem rgba(0, 0, 0, 0.1);
     }
 }
