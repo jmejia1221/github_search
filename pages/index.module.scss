@@ -11,3 +11,15 @@
     font-size: 4rem;
     margin-bottom: 3rem;
 }
+.filterSearchInput {
+    width: 100%;
+    display: flex;
+    align-items: baseline;
+    margin-top: 2rem;
+    justify-content: flex-end;
+    .filterTitle {
+        font-size: 1.8rem;
+        font-weight: bold;
+        margin-right: 1.5rem;
+    }
+}

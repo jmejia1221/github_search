@@ -14,6 +14,7 @@ const SearchContent = (props) => {
             return (
                 <th
                     key={item.name + i.toString()}
+                    onClick={() => props.filterSearchedDataHandler(item.name)}
                     className={styles.th}>
                     {item.name}
                 </th>
@@ -21,7 +22,7 @@ const SearchContent = (props) => {
         });
     }
 
-    if (props.data) {
+    if (props.data && props.data.length) {
         rows = props.data.map(item => {
             return (
                 <tr className={styles.tr} key={item.id}>
@@ -45,6 +46,8 @@ const SearchContent = (props) => {
         });
     }
 
+    // Setting up list of pagination
+    // according to props.data
     if (props.paginationSetUp && props.data && props.data.length) {
         let amountOfItems = new Array(
             Math.ceil(props.paginationSetUp.totalItems / props.paginationSetUp.limit))
@@ -68,7 +71,7 @@ const SearchContent = (props) => {
                     {item}
                 </li>
             )
-        })
+        });
     }
 
     return (

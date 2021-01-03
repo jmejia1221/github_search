@@ -12,13 +12,17 @@ const Search = (props) => {
     return (
         <div className={styles.searchContent}>
             <Input
-                keyDownHandler={props.keyDownHandler}
+                keyDownHandler={(e) => props.keyDownHandler(e, 'search')}
                 inputtype={props.inputConfig.elementType}
                 value={props.searchValue}
                 changed={props.inputSearchHandler}
                 elementConfig={props.inputConfig.elementConfig} />
             <div>
+                {props.children}
+            </div>
+            <div>
                 <SearchContent
+                    filterSearchedDataHandler={props.filterSearchedDataHandler}
                     paginationHandler={props.paginationHandler}
                     paginationSetUp={props.paginationSetUp}
                     head={props.head}
