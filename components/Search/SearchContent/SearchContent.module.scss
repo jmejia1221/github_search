@@ -8,6 +8,7 @@
             .th {
                 top: -1px;
                 position: sticky;
+                cursor: pointer;
                 border: 1px solid var(--grey-light);
                 background-color: var(--white);
                 box-shadow: 0 0.8rem 1.2rem rgba(0, 0, 0, 0.1);
@@ -29,5 +30,31 @@
         font-size: 1.6rem;
         padding: 0 2rem;
         font-weight: bold;
+    }
+}
+.paginationContent {
+    padding: 1rem 2rem;
+    margin-top: 2rem;
+    background-color: var(--white);
+    border-radius: .8rem;
+    display: flex;
+    justify-content: flex-end;
+    border: 1px solid var(--grey-lightest);
+    box-shadow: 0 0.8rem 1.2rem rgba(0, 0, 0, 0.1);
+    .paginationList {
+        display: flex;
+        .item {
+            cursor: pointer;
+            padding: 1rem 2rem;
+            font-size: 1.6rem;
+            font-weight: bold;
+            border-radius: .5rem;
+            color: var(--primary);
+            &:hover,
+            &.active {
+                color: var(--white);
+                background-color: var(--primary);
+            }
+        }
     }
 }

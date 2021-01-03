@@ -19,6 +19,8 @@ const Search = (props) => {
                 elementConfig={props.inputConfig.elementConfig} />
             <div>
                 <SearchContent
+                    paginationHandler={props.paginationHandler}
+                    paginationSetUp={props.paginationSetUp}
                     head={props.head}
                     data={props.data} />
             </div>

@@ -18,21 +18,54 @@ import styles from './index.module.scss';
 const Home = ({ data }) => {
     const [searchValue, setSearchValue] = useState('');
     const [gitUsersData, setGitUsersData] = useState([]);
+    const [paginationSetUp, setPaginationSetUp] = useState({
+        currentPage: 1,
+        totalItems: 0,
+        limit: 5
+    });
 
-    const searchByQuery = (query) => {
-        const reposTimeOut = setTimeout(() => {
-            axios.get('https://api.github.com/users/' + query + '/repos')
-                .then(response => {
-                    console.log(response)
-                    setGitUsersData(response.data);
-                    clearTimeout(reposTimeOut);
+    // Get data searched
+    const searchRepoByUser = (query, pagination) => {
+        let urlRequest = null;
+        if (pagination) {
+            console.log('paginarion')
+            urlRequest = axios.get('https://api.github.com/users/' + query + '/repos',
+                {
+                    params: {
+                        page: pagination.id,
+                        per_page: paginationSetUp.limit
+                    }
                 })
-                .catch(err => {
-                    setGitUsersData([]);
-                    clearTimeout(reposTimeOut);
-                    console.log(err)
-                })
-        }, 1000)
+        } else {
+            urlRequest = axios.get('https://api.github.com/users/' + query + '/repos')
+        }
+        urlRequest.then(response => {
+                if (!pagination) {
+                    const paginationLimitUpdate = {
+                        ...paginationSetUp
+                    };
+                    paginationLimitUpdate.totalItems = response.data.length;
+                    setPaginationSetUp(paginationLimitUpdate);
+                }
+                setGitUsersData(response.data);
+            })
+            .catch(err => {
+                setGitUsersData([]);
+                console.log(err)
+            });
+    }
+
+    // Getting page paginated
+    const paginationHandler = (id) => {
+        const paginationUpdated = {
+            ...paginationSetUp
+        };
+        const pagination = { id };
+
+        paginationUpdated.currentPage = id;
+        console.log('pagination', paginationUpdated)
+        setPaginationSetUp(paginationUpdated);
+        searchRepoByUser(searchValue, pagination);
     }
 
     const headTableItems = [
@@ -57,20 +90,20 @@ const Home = ({ data }) => {
         touched: false
     }
 
+    // Search data
     const inputSearchHandler = (e) => {
         const value = e.target.value;
         setSearchValue(value)
         if (value.length >= 3) {
-            searchByQuery(value);
-            console.log(e)
+            searchRepoByUser(value);
         } else {
-            searchByQuery('');
+            searchRepoByUser('');
         }
     }
 
+    // Cleaning Data when input is empty
     const keyDownHandler = (e) => {
         if (e.keyCode === 8 && !searchValue) {
-            console.log('e', e)
             setGitUsersData([]);
         }
     }
@@ -98,7 +131,9 @@ const Home = ({ data }) => {
                             keyDownHandler={keyDownHandler}
                             searchValue={searchValue}
                             inputSearchHandler={inputSearchHandler}
-                            inputConfig={inputSearchConfig} />
+                            inputConfig={inputSearchConfig}
+                            paginationSetUp={paginationSetUp}
+                            paginationHandler={paginationHandler} />
                     </div> 
                 </Tabs> 
             </aside>

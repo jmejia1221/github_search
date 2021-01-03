@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 // CSS
 import styles from './SearchContent.module.scss';
@@ -6,6 +6,8 @@ import styles from './SearchContent.module.scss';
 const SearchContent = (props) => {
     let rows = null;
     let head = null;
+    let paginationNumbers = null;
+    let paginationItemClasses = [styles.item];
 
     if (props.head) {
         head = props.head.map((item, i) => {
@@ -43,6 +45,32 @@ const SearchContent = (props) => {
         });
     }
 
+    if (props.paginationSetUp && props.data && props.data.length) {
+        let amountOfItems = new Array(
+            Math.ceil(props.paginationSetUp.totalItems / props.paginationSetUp.limit))
+            .fill(null)
+            .map((_, i) => i + 1);
+
+        paginationNumbers = amountOfItems.map(item => {
+
+            if (item === props.paginationSetUp.currentPage) {
+                paginationItemClasses.push(styles.active);
+            } else {
+                paginationItemClasses = [styles.item];
+            }
+
+            return (
+                <li
+                    className={paginationItemClasses.join(' ')}
+                    key={item}
+                    onClick={() => props.paginationHandler(item)}
+                    id={item}>
+                    {item}
+                </li>
+            )
+        })
+    }
+
     return (
         <div>
             <div className={styles.tableContent}>
@@ -55,7 +83,9 @@ const SearchContent = (props) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {rows}
+                                {props.paginationSetUp.limit ?
+                                    rows.slice(0, props.paginationSetUp.limit) :
+                                    rows }
                             </tbody>
                         </table>
                     ) : (
@@ -63,6 +93,13 @@ const SearchContent = (props) => {
                     )
                 }
             </div>
+            { props.data && props.data.length >= 5 &&
+                <div className={styles.paginationContent}>
+                    <ul className={styles.paginationList}>
+                        {paginationNumbers}
+                    </ul>
+                </div>
+            }
         </div>
     );
 };
