@@ -16,6 +16,42 @@ import { parseCookies } from '../helpers';
 // CSS
 import styles from './index.module.scss';
 
+const headTableItems = [
+    { name: 'Language' },
+    { name: 'Default Branch' },
+    { name: 'Git URL' },
+    { name: 'Name' },
+    { name: 'Description' }
+];
+
+const inputSearchConfig = {
+    elementType: 'input',
+    elementConfig: {
+        type: 'text',
+        placeholder: 'Search User\' Repository' 
+    },
+    value: '',
+    validation: {
+        required: true
+    },
+    valid: false,
+    touched: false
+};
+
+const inputFilterConfig = {
+    elementType: 'input',
+    elementConfig: {
+        type: 'text',
+        placeholder: 'Search Repository' 
+    },
+    value: '',
+    validation: {
+        required: true
+    },
+    valid: false,
+    touched: false
+};
+
 const Home = ({ data }) => {
     const [searchValue, setSearchValue] = useState('');
     const [searchFilterValue, setSearchFilterValue] = useState('');
@@ -29,45 +65,14 @@ const Home = ({ data }) => {
         limit: 5
     });
 
-    const headTableItems = [
-        { name: 'Language' },
-        { name: 'Default Branch' },
-        { name: 'Git URL' },
-        { name: 'Name' },
-        { name: 'Description' }
-    ];
-
-    const inputSearchConfig = {
-        elementType: 'input',
-        elementConfig: {
-            type: 'text',
-            placeholder: 'Search User\' Repository' 
-        },
-        value: '',
-        validation: {
-            required: true
-        },
-        valid: false,
-        touched: false
-    };
-
-    const inputFilterConfig = {
-        elementType: 'input',
-        elementConfig: {
-            type: 'text',
-            placeholder: 'Search Repository' 
-        },
-        value: '',
-        validation: {
-            required: true
-        },
-        valid: false,
-        touched: false
-    };
-
     // Get data searched
     const searchRepoByUser = (query, pagination) => {
         let urlRequest = null;
+
+        // Keeping item selected in the pagination
+        if (paginationSetUp.currentPage !== 1 && !pagination) {
+            pagination = {id: paginationSetUp.currentPage};
+        }
 
         if (pagination) {
             urlRequest = axios.get('https://api.github.com/users/' + query + '/repos',
@@ -88,16 +93,18 @@ const Home = ({ data }) => {
                     };
                     paginationLimitUpdate.totalItems = response.data.length;
                     setPaginationSetUp(paginationLimitUpdate);
+                    // Alternated data for respositories' filter
                     setAlternatedData(response.data);
                 }
                 setGitUsersData(response.data);
             })
             .catch(err => {
                 setGitUsersData([]);
-                console.log(err)
+                console.log('No data found');
             });
     }
 
+    // Getting repositories filtered
     const searchByRepo = (query) => {
         const copiedCurrentUserData = [...alternatedData];
         if (query.length >= 3) {
@@ -108,6 +115,7 @@ const Home = ({ data }) => {
         }
     };
 
+    // Getting query to filter repositories
     const searchFilterHandler = (e) => {
         const value = e.target.value;
         setSearchFilterValue(value);
@@ -130,11 +138,7 @@ const Home = ({ data }) => {
     const inputSearchHandler = (e) => {
         const value = e.target.value;
         setSearchValue(value)
-        if (value.length >= 3) {
-            searchRepoByUser(value);
-        } else {
-            searchRepoByUser('');
-        }
+        searchRepoByUser(value);
     }
 
     // Cleaning Data when input is empty
@@ -145,7 +149,7 @@ const Home = ({ data }) => {
             setGitUsersData([]);
         }
         if (e.keyCode === 8
-            && !searchFilterValue
+            && searchFilterValue.length <= 3
             && inputId === 'filter') {
             searchRepoByUser(searchValue);
         }
