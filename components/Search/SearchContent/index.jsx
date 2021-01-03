@@ -92,7 +92,7 @@ const SearchContent = (props) => {
                             </tbody>
                         </table>
                     ) : (
-                        <p className={styles.noFound}>Data no found</p>
+                        <p className={styles.noFound}>Data no found yet.</p>
                     )
                 }
             </div>

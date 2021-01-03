@@ -28,7 +28,7 @@ const inputSearchConfig = {
     elementType: 'input',
     elementConfig: {
         type: 'text',
-        placeholder: 'Search User\' Repository' 
+        placeholder: 'Search User\' Repositories' 
     },
     value: '',
     validation: {

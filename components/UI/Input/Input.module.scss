@@ -1,4 +1,6 @@
 .inputContent {
+    position: relative;
+    display: flex;
     .input {
         width: 100%;
         padding: 0 1.5rem;
@@ -8,5 +10,25 @@
         border-radius: .5rem;
         border: 1px solid var(--grey-lighter);
         box-shadow: 0 .8rem 1.2rem rgba(0,0,0,0.1);
+    }
+    .extendPlaceholder {
+        position: relative;
+        width: auto;
+        padding: 0 1.5rem;
+        height: 3.7rem;
+        line-height: 3.8rem;
+        margin-bottom: 1.5rem;
+        font-size: 1.7rem;
+        border-radius: .5rem;
+        color: var(--grey);
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        background-color: var(--grey-lighter);
+        // border: 1px solid var(--grey-lighter);
+        box-shadow: 0 .8rem 1.2rem rgba(0,0,0,0.1);
+        & + input {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
     }
 }

@@ -34,6 +34,10 @@ const Input = (props) => {
     }
     return (
         <div className={styles.inputContent}>
+            { props.elementConfig.extendplaceholder && 
+                <span className={styles.extendPlaceholder}>
+                    {props.elementConfig.extendplaceholder}
+                </span>}
             { props.label && <label>{props.label}</label> }
             {inputElement}
         </div>

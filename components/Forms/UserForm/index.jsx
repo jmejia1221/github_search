@@ -13,91 +13,93 @@ import styles from './UserForm.module.scss';
 import Input from '../../UI/Input';
 import Button from '../../UI/Button';
 
+const userForm = {
+    name: {
+        elementType: 'input',
+        elementConfig: {
+            type: 'text',
+            placeholder: 'Name'
+        },
+        value: '',
+        validation: {
+            required: true
+        },
+        valid: false,
+        touched: false
+    },
+    lastName: {
+        elementType: 'input',
+        elementConfig: {
+            type: 'text',
+            placeholder: 'Last Name'
+        },
+        value: '',
+        validation: {
+            required: true
+        },
+        valid: false,
+        touched: false
+    },
+    nit: {
+        elementType: 'input',
+        elementConfig: {
+            type: 'number',
+            placeholder: 'Nit'
+        },
+        value: '',
+        validation: {
+            required: true,
+            minLength: 5,
+            maxLength: 5
+        },
+        valid: false,
+        touched: false
+    },
+    birthday: {
+        elementType: 'input',
+        elementConfig: {
+            type: 'date',
+            placeholder: 'Birthday'
+        },
+        value: '',
+        validation: {
+            required: true
+        },
+        valid: false,
+        touched: false
+    },
+    email: {
+        elementType: 'input',
+        elementConfig: {
+            type: 'email',
+            placeholder: 'Your Email'
+        },
+        value: '',
+        validation: {
+            required: true
+        },
+        valid: false,
+        touched: false
+    },
+    github: {
+        elementType: 'input',
+        elementConfig: {
+            type: 'text',
+            placeholder: 'Github\'s User',
+            extendplaceholder: 'https://github.com/'
+        },
+        value: '',
+        validation: {
+            required: true
+        },
+        valid: false,
+        touched: false
+    }
+}
+
 const UserForm = () => {
     const router = useRouter();
     const [cookie, setCookie] = useCookies(["user"]);
-    const userForm = {
-        name: {
-            elementType: 'input',
-            elementConfig: {
-                type: 'text',
-                placeholder: 'Name'
-            },
-            value: '',
-            validation: {
-                required: true
-            },
-            valid: false,
-            touched: false
-        },
-        lastName: {
-            elementType: 'input',
-            elementConfig: {
-                type: 'text',
-                placeholder: 'Last Name'
-            },
-            value: '',
-            validation: {
-                required: true
-            },
-            valid: false,
-            touched: false
-        },
-        nit: {
-            elementType: 'input',
-            elementConfig: {
-                type: 'number',
-                placeholder: 'Nit'
-            },
-            value: '',
-            validation: {
-                required: true,
-                minLength: 5,
-                maxLength: 5
-            },
-            valid: false,
-            touched: false
-        },
-        birthday: {
-            elementType: 'input',
-            elementConfig: {
-                type: 'date',
-                placeholder: 'Birthday'
-            },
-            value: '',
-            validation: {
-                required: true
-            },
-            valid: false,
-            touched: false
-        },
-        email: {
-            elementType: 'input',
-            elementConfig: {
-                type: 'email',
-                placeholder: 'Your Email'
-            },
-            value: '',
-            validation: {
-                required: true
-            },
-            valid: false,
-            touched: false
-        },
-        github: {
-            elementType: 'input',
-            elementConfig: {
-                type: 'text',
-                placeholder: 'Github\'s User'
-            },
-            value: '',
-            validation: {
-                required: true
-            },
-            valid: false,
-            touched: false
-        }
-    }
     const [addUserForm, setAddUserForm] = useState(userForm)
 
     const addUserHandler = (e) => {
@@ -113,7 +115,17 @@ const UserForm = () => {
             maxAge: 3600, // Expires after 1hr
             sameSite: true,
         });
+        // Updating data calling root route
         router.push('/');
+
+        // Cleaning up data after have sent it
+        const updateUserForm = {
+            ...addUserForm
+        };
+        for (let key in updateUserForm) {
+            updateUserForm[key].value = '';
+        }
+        setAddUserForm(updateUserForm);
     }
 
     const inputChangeHandler = (e, inputIdentifier) => {
@@ -131,6 +143,7 @@ const UserForm = () => {
         setAddUserForm(updateUserForm);
     }
 
+    // Creating a new array to map the input elements
     const formElementsArray = [];
     for (let key in addUserForm) {
         formElementsArray.push({
