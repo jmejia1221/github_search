@@ -29,7 +29,7 @@ const inputSearchConfig = {
     elementType: 'input',
     elementConfig: {
         type: 'text',
-        placeholder: 'Search User\' Repositories' 
+        placeholder: 'Search User' 
     },
     value: '',
     validation: {
