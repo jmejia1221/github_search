@@ -14,7 +14,7 @@ const SearchContent = (props) => {
             return (
                 <th
                     key={item.name + i.toString()}
-                    onClick={() => props.sortingData(item.value)}
+                    onClick={() => props.sortingData(item)}
                     className={styles.th}>
                     {item.name}
                 </th>
@@ -46,9 +46,9 @@ const SearchContent = (props) => {
         });
     }
 
-    // Setting up list of pagination
-    // according to props.data
+    // Setting pagination list
     if (props.paginationSetUp && props.data && props.data.length) {
+        // Getting the amount of pages I need to paginate
         let amountOfItems = new Array(
             Math.ceil(props.paginationSetUp.totalItems / props.paginationSetUp.limit))
             .fill(null)

@@ -11,15 +11,44 @@
     font-size: 4rem;
     margin-bottom: 3rem;
 }
-.filterSearchInput {
-    width: 100%;
+.filterContent {
     display: flex;
-    align-items: baseline;
-    margin-top: 2rem;
-    justify-content: flex-end;
-    .filterTitle {
-        font-size: 1.8rem;
-        font-weight: bold;
-        margin-right: 1.5rem;
+    justify-content: space-between;
+    flex: 1 1 100%;
+    .sortContent {
+        margin-top: 2rem;
+        .sortTag {
+            cursor: pointer;
+            border: 1px solid var(--primary);
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 1rem 4rem 1rem 2rem;
+            position: relative;
+            border-radius: 50rem;
+            font-weight: bold;
+            font-size: 1.2rem;
+            top: 1rem;
+            transition: all .2s;
+            &:hover {
+                color: var(--primary);
+                background-color: var(--grey-lightest);
+            }
+            .icon {
+                position: absolute;
+                right: 2rem;
+                top: 1.1rem;
+            }
+        }
+    }
+    .filterSearchInput {
+        display: flex;
+        align-items: baseline;
+        margin-top: 2rem;
+        justify-content: flex-end;
+        .filterTitle {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-right: 1.5rem;
+        }
     }
 }

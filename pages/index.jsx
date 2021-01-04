@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
-import { faGithubAlt } from '@fortawesome/free-brands-svg-icons';
+import React, { useState } from 'react';
 
 // Libs
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes, faUserPlus } from '@fortawesome/free-solid-svg-icons';
+import { faGithubAlt } from '@fortawesome/free-brands-svg-icons';
 
 // Components
 import Tabs from '../components/UI/Tabs';
@@ -56,8 +57,9 @@ const Home = ({ data }) => {
     const [searchValue, setSearchValue] = useState('');
     const [searchFilterValue, setSearchFilterValue] = useState('');
     const [gitUsersData, setGitUsersData] = useState([]);
-    // This alternated data if for repositories'filter
-    // to keep all the data before paginate it
+    const [getSortingType, setGetSortingType] = useState('');
+    // This alternated data is for repositories'filter
+    // to keep all the data even if it is paginated
     const [alternatedData, setAlternatedData] = useState([]);
     const [paginationSetUp, setPaginationSetUp] = useState({
         currentPage: 1,
@@ -67,46 +69,47 @@ const Home = ({ data }) => {
 
     // Get data searched
     const searchRepoByUser = (query, pagination, sorting) => {
-        let urlRequest = null;
-        let sendParams = {};
+        let params = {};
 
         // Keeping item selected in the pagination
         if (paginationSetUp.currentPage !== 1 && !pagination) {
             pagination = {id: paginationSetUp.currentPage};
         }
 
-        if (pagination) {
-            urlRequest = axios.get('https://api.github.com/users/' + query + '/repos', {
-                params: {
-                    page: pagination.id,
-                    per_page: paginationSetUp.limit,
-                    sort: sorting ? sorting.type : ''
-                }
-            })
-        } else {
-            urlRequest = axios.get('https://api.github.com/users/' + query + '/repos', {
-                params: {
-                    sort: sorting ? sorting.type : ''
-                }
-            })
+        if (!pagination && sorting) {
+            params['sort'] = sorting ? sorting.value : '';
+            setGetSortingType(sorting.name);
         }
 
-        urlRequest.then(response => {
-                if (!pagination) {
-                    const paginationLimitUpdate = {
-                        ...paginationSetUp
-                    };
-                    paginationLimitUpdate.totalItems = response.data.length;
-                    setPaginationSetUp(paginationLimitUpdate);
-                    // Alternated data for respositories' filter
-                    setAlternatedData(response.data);
-                }
-                setGitUsersData(response.data);
-            })
-            .catch(err => {
-                setGitUsersData([]);
-                console.log('No data found');
-            });
+        if (!pagination && !sorting) {
+            setGetSortingType('');
+        }
+
+        if (pagination) {
+            params['page'] = pagination.id;
+            params['per_page'] = paginationSetUp.limit;
+        }
+
+        axios.get('https://api.github.com/users/' + query + '/repos', {
+            params: params
+        })
+        .then(response => {
+            if (!pagination) {
+                const paginationLimitUpdate = {
+                    ...paginationSetUp
+                };
+                paginationLimitUpdate.totalItems = response.data.length;
+                setPaginationSetUp(paginationLimitUpdate);
+
+                // Alternated data for respositories' filter
+                setAlternatedData(response.data);
+            }
+            setGitUsersData(response.data);
+        })
+        .catch(err => {
+            setGitUsersData([]);
+            console.log('No data found');
+        });
     }
 
     // Getting repositories filtered
@@ -160,13 +163,19 @@ const Home = ({ data }) => {
         }
     }
 
+    // Sorting table
     const sortingData = (type) => {
-        const sorting = { type }
+        const sorting = type
         searchRepoByUser(searchValue, null, sorting);
     }
 
-    let users = null;
+    // Remove sort
+    const removeSortHanlder = () => {
+        searchRepoByUser(searchValue);
+    }
 
+    // Rendering users according to data saved in the Cookie
+    let users = null;
     if (data.user) {
         users = <UserList user={JSON.parse(data.user)} />;
     }
@@ -194,14 +203,28 @@ const Home = ({ data }) => {
                             paginationHandler={paginationHandler}>
                             {/* Filter content */}
                             { gitUsersData.length ? (
-                                <div className={styles.filterSearchInput}>
-                                    <span className={styles.filterTitle}>Filter: </span>
-                                    <Input
-                                        keyDownHandler={(e) => keyDownHandler(e, 'filter')}
-                                        inputtype={inputFilterConfig.elementType}
-                                        value={searchFilterValue}
-                                        changed={searchFilterHandler}
-                                        elementConfig={inputFilterConfig.elementConfig} />
+                                <div className={styles.filterContent}>
+                                    <div className={styles.sortContent}>
+                                        { getSortingType && (
+                                            <span
+                                                onClick={removeSortHanlder}
+                                                className={styles.sortTag}>
+                                                { getSortingType }
+                                                <FontAwesomeIcon
+                                                    className={styles.icon}
+                                                    icon={faTimes} />
+                                            </span>
+                                        )}
+                                    </div>
+                                    <div className={styles.filterSearchInput}>
+                                        <span className={styles.filterTitle}>Filter: </span>
+                                        <Input
+                                            keyDownHandler={(e) => keyDownHandler(e, 'filter')}
+                                            inputtype={inputFilterConfig.elementType}
+                                            value={searchFilterValue}
+                                            changed={searchFilterHandler}
+                                            elementConfig={inputFilterConfig.elementConfig} />
+                                    </div>
                                 </div>
                             ) : null}
                         </Search>

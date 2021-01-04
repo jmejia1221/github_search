@@ -115,7 +115,7 @@ const UserForm = () => {
             maxAge: 3600, // Expires after 1hr
             sameSite: true,
         });
-        // Updating data rooting the route
+        // Updating data route to get the Cookie saved
         router.push('/');
 
         // Cleaning up data after have sent it
