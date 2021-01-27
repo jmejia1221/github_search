@@ -104,10 +104,12 @@ const Home = ({ data }) => {
                 // Alternated data for respositories' filter
                 setAlternatedData(response.data);
             }
+            setSearchFilterValue('');
             setGitUsersData(response.data);
         })
         .catch(err => {
             setGitUsersData([]);
+            setSearchFilterValue('');
             console.log('No data found');
         });
     }
@@ -182,7 +184,8 @@ const Home = ({ data }) => {
 
     return (
         <section className={styles.main}>
-            <aside>
+            <div className={styles.bg}></div>
+            <div className={styles.content}>
                 <Tabs tabDefault="users"> 
                     <div label="users" icon={faUserPlus} onlyIcon> 
                         <h2 className={styles.title}>Add User</h2>
@@ -202,7 +205,7 @@ const Home = ({ data }) => {
                             paginationSetUp={paginationSetUp}
                             paginationHandler={paginationHandler}>
                             {/* Filter content */}
-                            { gitUsersData.length ? (
+                            { searchValue ? (
                                 <div className={styles.filterContent}>
                                     <div className={styles.sortContent}>
                                         { getSortingType && (
@@ -230,7 +233,7 @@ const Home = ({ data }) => {
                         </Search>
                     </div> 
                 </Tabs> 
-            </aside>
+            </div>
         </section>
     );
 };

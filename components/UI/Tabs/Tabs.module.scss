@@ -15,3 +15,22 @@
     padding: 8rem 1rem;
     min-width: 50rem;
 }
+
+@media screen and (max-width: 770px) {
+    .content {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .tabContent {
+        padding: 2rem 1rem 2rem 3rem;
+        min-width: 100%;
+    }
+    .nav {
+        flex: 1 100%;
+        padding: 2rem;
+        .list {
+            display: flex;
+            justify-content: center;
+        }
+    }
+}

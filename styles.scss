@@ -20,15 +20,13 @@
 *:before {
     box-sizing: inherit;
 }
-body,
 html {
     font-family: Helvetica, sans-serif, Arial;
     font-size: 62.5%;
-    height: 100%;
+    width: fit-content;
 }
 body {
     margin: 0;
-    padding: 3rem;
     font-size: 1.4rem;
     background-color: var(--bg-color);
     box-sizing: border-box;
@@ -42,4 +40,40 @@ ul {
 }
 ul li {
     list-style-type: none;
+}
+@media screen and (max-width: 770px) {
+    /* Force table to not be like tables anymore */
+	table, thead, tbody, th, td, tr { 
+		display: block; 
+	}
+	
+	/* Hide table headers (but not display: none;, for accessibility) */
+	thead tr { 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+	
+	tr { border: 1px solid var(--grey-lighter); }
+	
+	td { 
+		/* Behave  like a "row" */
+		border: none;
+		border-bottom: 1px solid #eee; 
+		position: relative;
+		padding-left: 50%; 
+        min-height: 4rem;
+	}
+	
+	td:before { 
+		/* Now like a table header */
+		position: absolute;
+		/* Top/left values mimic padding */
+		top: 10px;
+		left: 6px;
+		width: 45%; 
+		padding-right: 10px; 
+        white-space: nowrap;
+        font-weight: bold;
+	}
 }
